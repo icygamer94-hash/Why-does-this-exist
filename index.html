@@ -1,0 +1,388 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#09090d">
+<meta name="description" content="Four unnecessary internet experiences. You have been warned.">
+<title>WHY DOES THIS EXIST?</title>
+<style>
+:root {
+  --bg:#09090d; --panel:#12121a; --line:#292936;
+  --text:#f5f5ff; --muted:#9999ad; --lime:#c5ff5a;
+  --pink:#ff62c0; --blue:#80a7ff;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Inter,system-ui,-apple-system,sans-serif;
+  line-height:1.5;overflow-x:hidden;
+}
+button{font:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid var(--lime);outline-offset:4px}
+a{color:var(--lime)}
+.noise{
+  position:fixed;inset:0;pointer-events:none;opacity:.12;z-index:0;
+  background-image:radial-gradient(#aaa 0.5px,transparent .5px);
+  background-size:5px 5px;
+}
+header,main,footer{position:relative;z-index:1}
+header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:19px 5%;border-bottom:1px solid var(--line);
+}
+.logo{font-size:12px;font-weight:950;letter-spacing:1.8px}
+.live{font-size:10px;color:var(--lime);letter-spacing:1px}
+.live:before{content:"●";margin-right:7px}
+.hero{padding:66px 20px 43px;text-align:center}
+.eyebrow{
+  display:inline-block;border:1px solid #444454;border-radius:4px;
+  padding:6px 10px;color:var(--lime);font-size:10px;
+  letter-spacing:2px;font-weight:800;
+}
+h1{
+  font-size:clamp(43px,10vw,91px);line-height:.91;
+  letter-spacing:-5px;margin:26px 0 20px;font-weight:1000;
+}
+h1 span{color:var(--lime)}
+.hero p{max-width:430px;margin:auto;color:var(--muted);font-size:14px}
+.stats{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:25px}
+.stat{border:1px solid var(--line);border-radius:5px;padding:7px 11px;font-size:10px;color:var(--muted)}
+.stat b{color:white}
+main{max-width:1000px;margin:auto;padding:0 18px 65px}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:12px 0 17px}
+.section-head h2{font-size:12px;letter-spacing:2px}
+.section-head span{font-size:10px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.card{
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:10px;padding:20px;min-width:0;position:relative;
+  overflow:hidden;transition:border-color .2s,transform .2s;
+}
+.card:hover{border-color:#56566b;transform:translateY(-2px)}
+.card-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.number{font-size:10px;color:var(--muted);letter-spacing:1px}
+.tag{font-size:9px;padding:4px 7px;border-radius:3px;background:#252532;color:var(--lime)}
+.card h3{font-size:22px;letter-spacing:-.7px;margin:19px 0 5px}
+.card>p{font-size:12px;color:var(--muted);min-height:37px;margin:0 0 18px}
+.action{
+  width:100%;padding:12px 14px;border:1px solid #414151;border-radius:5px;
+  background:#20202b;color:white;font-weight:800;font-size:12px;
+  transition:background .15s,transform .1s;
+}
+.action:active{transform:scale(.98)}
+.action.lime{background:var(--lime);color:#11130b;border-color:var(--lime)}
+.action.pink{background:var(--pink);color:#200c1a;border-color:var(--pink)}
+.action.blue{background:var(--blue);color:#0b1020;border-color:var(--blue)}
+.result{
+  margin-top:12px;min-height:65px;border:1px dashed #353543;border-radius:5px;
+  padding:12px;font-size:12px;color:var(--muted);overflow-wrap:anywhere;
+}
+.result strong{display:block;color:white;font-size:14px;margin-bottom:4px}
+#forbidden{font-size:14px;min-height:90px;transition:all .2s}
+#forbidden.danger{background:#40132a;border-color:#ff3c78;color:#fff}
+#npcName{font-size:18px;color:var(--pink)}
+.reaction-zone{
+  min-height:115px;display:flex;flex-direction:column;
+  justify-content:center;align-items:center;gap:5px;
+  border:1px solid var(--line);border-radius:6px;
+  margin-bottom:12px;padding:15px;text-align:center;
+  background:#1b1b27;user-select:none;touch-action:manipulation;
+}
+.reaction-zone strong{font-size:17px}
+.reaction-zone small{font-size:11px;color:var(--muted)}
+.reaction-zone.waiting{background:#7a2525}
+.reaction-zone.ready{background:#174c2b;border-color:#63ff8b}
+.reaction-zone.early{background:#633c16}
+.reaction-zone.result-state{background:#222b55}
+.terminal{
+  background:#050b07;border:1px solid #24432e;border-radius:6px;
+  padding:13px;margin-bottom:12px;min-height:100px;
+  color:#9effb0;font:12px/1.8 ui-monospace,monospace;
+  overflow-wrap:anywhere;
+}
+.terminal .dim{color:#577b60}
+.bottom{
+  margin-top:23px;padding:22px;border:1px solid var(--line);
+  border-radius:9px;display:flex;justify-content:space-between;
+  align-items:center;gap:15px;background:#101018;
+}
+.bottom h3{margin:0 0 4px;font-size:15px}
+.bottom p{margin:0;color:var(--muted);font-size:11px}
+.small-button{
+  background:transparent;color:white;border:1px solid #424253;
+  padding:10px 12px;border-radius:5px;font-size:11px;font-weight:800;
+  flex-shrink:0;
+}
+footer{text-align:center;padding:24px 15px 35px;color:#6c6c80;font-size:10px;letter-spacing:.5px}
+footer b{color:var(--lime)}
+.shake{animation:shake .25s linear 2}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-5px)}
+  75%{transform:translateX(5px)}
+}
+@media(max-width:560px){
+  header{padding:16px 18px}
+  .hero{padding:53px 13px 34px}
+  h1{letter-spacing:-2.5px}
+  main{padding:0 12px 45px}
+  .grid{gap:9px}
+  .card{padding:13px}
+  .card h3{font-size:18px;margin-top:15px}
+  .card>p{font-size:11px;min-height:50px}
+  .tag{font-size:8px}
+  .bottom{padding:16px;align-items:flex-start}
+  .small-button{padding:10px 8px}
+}
+@media(max-width:350px){
+  .grid{grid-template-columns:1fr}
+  .card>p{min-height:0}
+}
+</style>
+</head>
+<body>
+<div class="noise"></div>
+<header>
+  <div class="logo">W.D.T.E. <span style="color:var(--lime)">®</span></div>
+  <div class="live">UNNECESSARY INTERNET</div>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">THE INTERNET'S LEAST IMPORTANT WEBSITE</div>
+  <h1>WHY DOES<br><span>THIS EXIST?</span></h1>
+  <p>Four completely unnecessary experiences. Absolutely no purpose. An unreasonable amount of effort went into this.</p>
+  <div class="stats">
+    <div class="stat"><b>04</b> EXPERIENCES</div>
+    <div class="stat"><b>$0</b> BUDGET</div>
+    <div class="stat"><b>0</b> PRODUCTIVITY</div>
+  </div>
+</section>
+
+<main>
+  <div class="section-head">
+    <h2>THE EXPERIMENTS</h2>
+    <span>SELECT AT YOUR OWN RISK</span>
+  </div>
+
+  <div class="grid">
+    <section class="card">
+      <div class="card-top"><span class="number">EXPERIMENT_001</span><span class="tag">DO NOT PRESS</span></div>
+      <h3>The Forbidden Button</h3>
+      <p>It's probably fine. Seriously, what could happen?</p>
+      <button class="action pink" id="forbidden">DO NOT PRESS</button>
+      <div class="result" id="forbiddenResult" aria-live="polite">System status: perfectly normal.</div>
+    </section>
+
+    <section class="card">
+      <div class="card-top"><span class="number">EXPERIMENT_002</span><span class="tag">NPC ENERGY</span></div>
+      <h3>NPC Generator</h3>
+      <p>Discover the random side character you were born to be.</p>
+      <button class="action lime" id="generateNpc">GENERATE MY NPC</button>
+      <div class="result" id="npcResult" aria-live="polite">Your lore is waiting to be generated.</div>
+      <button class="action" id="shareNpc" style="margin-top:8px">SHARE MY LORE ↗</button>
+    </section>
+
+    <section class="card">
+      <div class="card-top"><span class="number">EXPERIMENT_003</span><span class="tag">REFLEX CHECK</span></div>
+      <h3>Reaction Test</h3>
+      <p>Test your reaction time. No excuses if you're slow.</p>
+      <div class="reaction-zone" id="reactionZone" role="button" tabindex="0">
+        <strong id="reactionTitle">READY?</strong>
+        <small id="reactionSub">Tap the button to start.</small>
+      </div>
+      <button class="action blue" id="reactionButton">START TEST</button>
+      <div class="result" id="reactionResult" aria-live="polite">Your best result will show here.</div>
+    </section>
+
+    <section class="card">
+      <div class="card-top"><span class="number">EXPERIMENT_004</span><span class="tag">TOTALLY REAL</span></div>
+      <h3>Fake Hacker Mode</h3>
+      <p>Become a movie hacker without knowing a single command.</p>
+      <div class="terminal" id="terminal" aria-live="polite"><span class="dim">root@unnecessary:~$</span><br>Awaiting command...<br><span class="dim">Nothing suspicious here.</span></div>
+      <button class="action lime" id="hackButton">INITIATE HACK</button>
+      <div class="result" id="hackResult">Classification: regular internet user.</div>
+    </section>
+  </div>
+
+  <section class="bottom">
+    <div>
+      <h3>Enjoyed wasting your time?</h3>
+      <p>Send this questionable invention to a friend.</p>
+    </div>
+    <button class="small-button" id="shareSite">SHARE WEBSITE ↗</button>
+  </section>
+</main>
+
+<footer>
+  MADE FOR NO REASON. <b>NO AI. NO API. JUST CHAOS.</b><br><br>
+  Nothing here actually hacks, damages, or accesses your device.
+</footer>
+
+<script>
+const $ = id => document.getElementById(id);
+let soundOn = true;
+let audioContext;
+
+function beep(freq=500,duration=.06,type="sine"){
+  if(!soundOn)return;
+  try{
+    audioContext ||= new (window.AudioContext||window.webkitAudioContext)();
+    if(audioContext.state==="suspended")audioContext.resume();
+    const osc=audioContext.createOscillator();
+    const gain=audioContext.createGain();
+    osc.type=type;
+    osc.frequency.value=freq;
+    gain.gain.setValueAtTime(.035,audioContext.currentTime);
+    gain.gain.exponentialRampToValueAtTime(.001,audioContext.currentTime+duration);
+    osc.connect(gain);gain.connect(audioContext.destination);
+    osc.start();osc.stop(audioContext.currentTime+duration);
+  }catch(e){}
+}
+document.addEventListener("click",e=>{
+  if(e.target.closest("button"))beep(450,.035);
+});
+
+const forbiddenMessages=[
+  ["I TOLD YOU NOT TO PRESS IT.","That was literally the only rule."],
+  ["Interesting decision.","Your curiosity stat just increased by 1."],
+  ["Deleting system files...","Relax. That was a fake progress report."],
+  ["ACCESSING YOUR WIFI...","Just kidding. I can't access your Wi-Fi."],
+  ["YOUR PHONE IS NOW A TOASTER.","Please insert bread. Just kidding."],
+  ["ERROR 404: COMMON SENSE NOT FOUND.","Try turning your brain off and on again."],
+  ["CONTACTING THE FBI...","They said you're wasting your time."],
+  ["SELF-DESTRUCT SEQUENCE INITIATED.","3... 2... just kidding. Chill."],
+  ["YOU HAVE UNLOCKED NOTHING.","Achievement: Professional Button Presser."],
+  ["WHY ARE YOU STILL HERE?","Honestly, respect the commitment."]
+];
+let presses=0;
+$("forbidden").addEventListener("click",()=>{
+  presses++;
+  const msg=forbiddenMessages[(presses-1)%forbiddenMessages.length];
+  $("forbiddenResult").innerHTML="<strong>"+msg[0]+"</strong>"+msg[1]+"<br><br>Button presses: "+presses;
+  $("forbidden").textContent=presses>=5?"STOP PRESSING ME":"DO NOT PRESS ("+presses+")";
+  $("forbidden").classList.toggle("danger",presses%2===0);
+  $("forbiddenResult").classList.add("shake");
+  setTimeout(()=>$("forbiddenResult").classList.remove("shake"),500);
+  if(presses%3===0)beep(180,.15,"sawtooth");
+});
+
+const firstNames=["Greg","Bingus","Kevin","Lil Bro","Gerald","Muffin","Derek","Glorbo","Tyler","Unc","Bobby","Jamal","Skronk","Ethan","Craig","Zorp"];
+const jobs=["professional grass avoider","part-time NPC","failed SoundCloud rapper","certified yapper","unpaid side quest","professional door holder","Wi-Fi password inspector","CEO of absolutely nothing","full-time hater","retired Minecraft player","vending machine philosopher","professional overthinker"];
+const traits=["has 46 unread emails","says 'bro trust' before every bad idea","walks into a room and forgets why","thinks they're the main character","has beef with a printer","takes 3 business days to reply","owns one fork and calls it minimalism","calls everything a side quest","has never won an argument in the shower","thinks 2 AM is a lifestyle","apologizes to furniture after bumping into it","has a suspicious amount of confidence"];
+const lore=["was banned from a library for excessive aura","once lost a staring contest with a fish","has a 400-page autobiography with no readers","was the final boss of a school group project","has been on a side quest since 2019","is wanted in 3 group chats","spent 8 hours choosing a profile picture","has never read the terms and conditions","once got humbled by a revolving door","has a PhD in doing absolutely nothing"];
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+let currentNpc=null;
+$("generateNpc").addEventListener("click",()=>{
+  currentNpc={name:pick(firstNames),job:pick(jobs),trait:pick(traits),lore:pick(lore)};
+  $("npcResult").innerHTML='<strong id="npcName">'+currentNpc.name+'</strong><br>Occupation: '+currentNpc.job+'<br>Passive ability: '+currentNpc.trait+'<br>Secret lore: '+currentNpc.lore;
+  $("shareNpc").textContent="SHARE MY LORE ↗";
+  beep(700,.08);
+});
+
+async function share(textToShare){
+  try{
+    if(navigator.share){
+      await navigator.share({title:"WHY DOES THIS EXIST?",text:textToShare,url:location.href});
+    }else if(navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(textToShare+" "+location.href);
+      alert("Copied! Send it to your friends.");
+    }else{
+      window.prompt("Copy this and send it to your friends:",textToShare+" "+location.href);
+    }
+  }catch(e){
+    if(e.name!=="AbortError")window.prompt("Copy your message:",textToShare+" "+location.href);
+  }
+}
+$("shareNpc").addEventListener("click",()=>{
+  if(!currentNpc){alert("Generate your NPC first!");return;}
+  share("My NPC identity: "+currentNpc.name+" — "+currentNpc.job+". Passive ability: "+currentNpc.trait+". Secret lore: "+currentNpc.lore+".");
+});
+$("shareSite").addEventListener("click",()=>{
+  share("I found the most unnecessary website on the internet. Go waste your time:");
+});
+
+let reactionState="idle",startTime=0,timeout=null,best=null;
+function setReaction(title,sub,state){
+  $("reactionTitle").textContent=title;
+  $("reactionSub").textContent=sub;
+  $("reactionZone").className="reaction-zone "+state;
+}
+function resetReaction(){
+  clearTimeout(timeout);
+  reactionState="idle";
+  setReaction("READY?","Tap the button to start.","");
+  $("reactionButton").textContent="START TEST";
+}
+function reactionAction(){
+  if(reactionState==="idle"||reactionState==="result"){
+    reactionState="waiting";
+    setReaction("WAIT FOR GREEN...","Don't tap early.","waiting");
+    $("reactionButton").textContent="WAIT...";
+    timeout=setTimeout(()=>{
+      if(reactionState!=="waiting")return;
+      reactionState="ready";
+      startTime=performance.now();
+      setReaction("TAP NOW!","GO GO GO!","ready");
+      $("reactionButton").textContent="TAP NOW!";
+      beep(850,.12);
+    },1000+Math.random()*3500);
+  }else if(reactionState==="waiting"){
+    clearTimeout(timeout);
+    reactionState="early";
+    setReaction("TOO EARLY!","You jumped the gun.","early");
+    $("reactionResult").innerHTML="<strong>False start.</strong>Patience is a skill too.";
+    $("reactionButton").textContent="TRY AGAIN";
+    reactionState="result";
+  }else if(reactionState==="ready"){
+    const ms=Math.round(performance.now()-startTime);
+    reactionState="result";
+    if(best===null||ms<best)best=ms;
+    let rank=ms<180?"ACTUAL ROBOT":ms<250?"QUICK REFLEXES":ms<350?"NOT BAD":ms<500?"NPC REACTION":"WERE YOU AFK?";
+    setReaction(ms+" ms",rank,"result-state");
+    $("reactionResult").innerHTML="<strong>"+rank+"</strong>Your time: "+ms+" ms · Best: "+best+" ms";
+    $("reactionButton").textContent="TRY AGAIN";
+    beep(650,.1);
+  }
+}
+$("reactionButton").addEventListener("click",reactionAction);
+$("reactionZone").addEventListener("click",()=>{
+  if(reactionState==="ready"||reactionState==="waiting")reactionAction();
+});
+$("reactionZone").addEventListener("keydown",e=>{
+  if(e.key==="Enter"||e.key===" "){
+    e.preventDefault();
+    if(reactionState==="ready"||reactionState==="waiting")reactionAction();
+  }
+});
+
+const terminalLines=[
+  "Initializing totally-real hacker software...",
+  "Connecting to 127.0.0.1... (that's your own device)",
+  "Decrypting... definitely not making this up...",
+  "Scanning for suspicious levels of procrastination...",
+  "FOUND: 47 open mental tabs.",
+  "Locating the meaning of life... 404 NOT FOUND",
+  "Bypassing imaginary firewall...",
+  "Downloading 9999 terabytes of aura...",
+  "WARNING: excessive amounts of unearned confidence",
+  "Access granted to absolutely nothing."
+];
+let hackCount=0;
+$("hackButton").addEventListener("click",()=>{
+  hackCount++;
+  const lines=[];
+  for(let i=0;i<5;i++){
+    lines.push('<span class="dim">root@unnecessary:~$</span><br>'+terminalLines[Math.floor(Math.random()*terminalLines.length)]);
+  }
+  lines.push("<br><b>PROCESS COMPLETE. YOU ARE STILL NOT A HACKER.</b>");
+  $("terminal").innerHTML=lines.join("<br>");
+  $("hackResult").innerHTML="<strong>Hacker level: "+(hackCount>4?"UNEMPLOYED GENIUS":hackCount>2?"HOODIE REQUIRED":"SCRIPT KIDDIE")+"</strong>Hack attempts: "+hackCount+" · Real systems accessed: 0";
+  $("hackButton").textContent="HACK AGAIN";
+  beep(300,.13,"square");
+});
+</script>
+</body>
+</html>
+  
